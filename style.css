@@ -1,0 +1,32 @@
+html {
+    font-size: 16px;
+}
+
+body {
+    font-family: 'Mali', cursive;
+    font-size: 1.5em;
+}
+
+.random-background {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.random-background_button {
+    font-family: 'Mali', cursive;
+    font-size: 1em;
+    color: white;
+    background: black;
+    border: none;
+    border-radius: 5px;
+}
+
+.play, .song, .file {
+    display: flex;
+    justify-content: center;
+}
+
+.play p {
+    font-size: 9em;
+    margin: 30px 0 10px 0;
+}
