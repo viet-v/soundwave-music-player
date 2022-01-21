@@ -1,3 +1,9 @@
+/*** CORE IDEA to create SOUND WAVE
+     Input an audio file, scan it to get frequency data
+     Create a set of bar using loop
+     With the 2nd same loop, assign each bar's height based on each value on frequency data array
+*/
+
 const waveUp = document.querySelector('.wave-up')
 const waveDown = document.querySelector('.wave-down')
 const musicUpload = document.querySelector('#music-file');
@@ -11,21 +17,29 @@ let bufferLength;
 let dataArray;
 
 musicUpload.addEventListener('change', function() {
-    const file = musicUpload.files;
-    const url = URL.createObjectURL(file[0]);
+    const file = musicUpload.files;     // file from computer
+    const url = URL.createObjectURL(file[0]);  // file source
     audio.setAttribute('src', url);
     songName.innerText = musicUpload.files[0].name;
 
+    //create audio context
     const audioCtx = new AudioContext();
+
+    //create audio source
     audioSource = audioCtx.createMediaElementSource(audio);
+
+    //create audio analyser
     analyser = audioCtx.createAnalyser();
+
+    //connect audio source to analyser, then connect audio destination
     audioSource.connect(analyser);
     analyser.connect(audioCtx.destination);  // audio output device (computer speaker)
-    bufferLength = analyser.frequencyBinCount;
+
+    bufferLength = analyser.frequencyBinCount;  // 1024 (half of analyser)
     dataArray = new Uint8Array(bufferLength);
-    
 })
 
+// create wave bars both up and down side
 for (let i = 0; i < 35; i++) {
     const barUp = document.createElement('div')
     barUp.setAttribute('id', 'bar-up' + i)
@@ -48,66 +62,20 @@ function playMusic () {
             const index = (i + 10) * 2
             const frequencyData = dataArray[index]
             const barUp = document.querySelector('#bar-up' + i)
-            if (!barUp) {
+            const barDown = document.querySelector('#bar-down' + i)
+            if (!barUp || !barDown) {
                 continue;
             }
-            const barHeight = Math.max(4, frequencyData / 2);
+            const barHeight = Math.max(5, frequencyData / 5);
             barUp.style.height = barHeight + 'px';
-
-            const barDown = document.querySelector('#bar-down' + i)
             barDown.style.height = barHeight + 'px';
         }
 
-        window.requestAnimationFrame(animation)
+        window.requestAnimationFrame(animation)  // similar to setInterval, but produces higher quality animation without frame skips
     }
     animation()
 }
-    
-
-    
-/*
-    function renderFrame() {
-
-        // create audio context
-        const audioCtx = new AudioContext();
-
-        // create an audio source
-        const audioSource = audioCtx.createMediaElementSource(audio);
-        // console.log(audioSource)
-
-        // create an analyser
-        const analyser = audioCtx.createAnalyser();
-
-        // connect the source to analyser, then back to the context destination
-        audioSource.connect(analyser);
-        audioSource.connect(audioCtx.destination);  // audio output device (computer speaker)
-
-        // the analyse frequencies
-        const dataArray = new Uint8Array(analyser.frequencyBinCount);
-        analyser.getByteFrequencyData(dataArray);
-
-        for (let i = 0; i < 35; i++) {
-            const bar = document.createElement('div')
-            bar.setAttribute('id', 'bar' + i)
-            bar.setAttribute('class', 'wave-bar')
-            waveContainer.append(bar)
-        }
- 
-        for (let i = 0; i < 35; i++) {
-            const frequencyData = dataArray[i]
-
-            const bar = document.querySelector('#bar' + i)
-            if (!bar) {
-                continue;
-            }
-
-            const barHeight = Math.max(4, frequencyData || 0);
-            bar.style.height = barHeight + 'px';
-        }
-        window.requestAnimationFrame(renderFrame)
-    }
-
-*/    
+        
     
     playIcon.addEventListener('click', function () {
         if (audio.paused) {
