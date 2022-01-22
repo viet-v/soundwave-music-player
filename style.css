@@ -67,6 +67,11 @@ body {
 .play p {
     font-size: 10rem;
     margin: 30px 0 10px 0;
+    cursor: pointer;
+}
+
+.hide {
+    display: none;
 }
 
 #upload-btn {

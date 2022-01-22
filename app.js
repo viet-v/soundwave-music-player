@@ -7,17 +7,17 @@
 const photoAPI = 'https://api.unsplash.com/photos/random?query=landscape?orientation=landscape&client_id=tCo0LHFg9sl7oaFaVT2PP-cJOoixbGldlLVrvca7zlA';
 const waveUp = document.querySelector('.wave-up')
 const waveDown = document.querySelector('.wave-down')
-const playIcon = document.querySelector('.icon');
+const playIcon = document.querySelector('#play-icon');
+const pauseIcon = document.querySelector('#pause-icon');
 const songName = document.querySelector('.song-name');
 const backgroundButton = document.querySelector('.random-background_button')
-const musicUpload = document.getElementById('music-file');
-const audio = document.getElementById('audio');
-const creator = document.getElementById('creator')
+const musicUpload = document.querySelector('#music-file');
+const audio = document.querySelector('#audio');
+const creator = document.querySelector('#creator')
 
 const getPhoto = async () => {
     const response = await fetch(photoAPI)
     const photo = await response.json()
-    console.log(photo)
     updatePhoto(photo)
 }
 
@@ -99,14 +99,19 @@ const playMusic = () => {
 }
         
     
-    playIcon.addEventListener('click', () => {
-        if (audio.paused) {
-            audio.play();
-            playIcon.innerHTML = `<i class="fas fa-pause"></i>`;
-            
-        } else {
-            audio.pause();
-            playIcon.innerHTML = `<i class="fas fa-play"></i>`;
-        }
+playIcon.addEventListener('click', () => {
+    if (musicUpload.files[0]) {
+        audio.play();
+        playIcon.classList.add('hide')
+        pauseIcon.classList.remove('hide')
         playMusic()
-    })
+    } else {
+        alert('Please choose a MP3 file from your computer')
+    }
+})
+
+pauseIcon.addEventListener('click', () => {
+    audio.pause()
+    playIcon.classList.remove('hide')
+    pauseIcon.classList.add('hide')
+})
