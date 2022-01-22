@@ -59,8 +59,7 @@ function playMusic () {
         analyser.getByteFrequencyData(dataArray)
 
         for (let i = 0; i < 35; i++) {    
-            const index = (i + 10) * 2
-            const frequencyData = dataArray[index]
+            const frequencyData = dataArray[i]
             const barUp = document.querySelector('#bar-up' + i)
             const barDown = document.querySelector('#bar-down' + i)
             if (!barUp || !barDown) {

@@ -21,12 +21,21 @@
             <p>Playing:   <span class="song-name">La La La</span></p>
         </div>
         <div class="file">
-            <input type="file" id="music-file">
+            <input type="file" id="music-file" style="display: none;">
+            <input type="button" id="upload-btn" value="Choose file" onclick="document.getElementById('music-file').click()">
             <audio id="audio"></audio>
         </div>
         <div class="wave">
-            <div class="wave-up"></div>
-            <div class="wave-down"></div>
+            <div class="wave-node_begin">
+                <i class="fas fa-circle"></i>
+            </div>
+            <div class="wave-container">
+                <div class="wave-up"></div>
+                <div class="wave-down"></div>
+            </div>
+            <div class="wave-node_end">
+                <i class="fas fa-circle"></i>
+            </div>
         </div>
     </div>
 </body>
