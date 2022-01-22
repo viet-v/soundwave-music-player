@@ -11,14 +11,19 @@
 </head>
 <body>
     <div class="container">
+        <div class="background"></div>
         <div class="random-background">
-            <button type="button" class="random-background_button">Random Background</button>
+            <div>
+                <button type="button" class="random-background_button">Random Background</button>
+            <p id="attribute">Photo by <a id="creator" href="https://unsplash.com/@pinewatt" target="_blank">pine watt</a> 
+                on <a id="unsplash" href="https://unsplash.com/?utm_source=Soundwave_Music_Player&utm_medium=referral" target="_blank">Unsplash</a></p>
+            </div>
         </div>
         <div class="play">
             <p class="icon"><i class="fas fa-play"></i></p>
         </div>
         <div class="song">
-            <p>Playing:   <span class="song-name">La La La</span></p>
+            <p><span class="song-name"></span></p>
         </div>
         <div class="file">
             <input type="file" id="music-file" style="display: none;">

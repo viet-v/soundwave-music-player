@@ -4,19 +4,43 @@
      With the 2nd same loop, assign each bar's height based on each value on frequency data array
 */
 
+const photoAPI = 'https://api.unsplash.com/photos/random?query=landscape?orientation=landscape&client_id=tCo0LHFg9sl7oaFaVT2PP-cJOoixbGldlLVrvca7zlA';
 const waveUp = document.querySelector('.wave-up')
 const waveDown = document.querySelector('.wave-down')
-const musicUpload = document.querySelector('#music-file');
-const audio = document.querySelector('#audio');
 const playIcon = document.querySelector('.icon');
 const songName = document.querySelector('.song-name');
+const backgroundButton = document.querySelector('.random-background_button')
+const musicUpload = document.getElementById('music-file');
+const audio = document.getElementById('audio');
+const creator = document.getElementById('creator')
+
+
+const getPhoto = async () => {
+    const response = await fetch(photoAPI)
+    const photo = await response.json()
+    console.log(photo)
+    updatePhoto(photo)
+}
+
+const updatePhoto = (photo) => {
+    const photoLink = photo.links.full;
+    const creatorName = photo.user.name;
+    const creatorLink = photo.user.links.html + '?utm_source=Soundwave_Music_Player&utm_medium=referral';
+    creator.innerText = creatorName;    
+    creator.setAttribute('href', creatorLink);
+    document.documentElement.style.setProperty('--background', `url('${photoLink}')`)
+}
+
+backgroundButton.addEventListener('click', () => {
+    // getPhoto()
+})
 
 let audioSource;
 let analyser;
 let bufferLength;
 let dataArray;
 
-musicUpload.addEventListener('change', function() {
+musicUpload.addEventListener('change', () => {
     const file = musicUpload.files;     // file from computer
     const url = URL.createObjectURL(file[0]);  // file source
     audio.setAttribute('src', url);
@@ -53,7 +77,7 @@ for (let i = 0; i < 35; i++) {
 }
     
 
-function playMusic () {
+const playMusic = () => {
     
     function animation () {
         analyser.getByteFrequencyData(dataArray)
@@ -76,7 +100,7 @@ function playMusic () {
 }
         
     
-    playIcon.addEventListener('click', function () {
+    playIcon.addEventListener('click', () => {
         if (audio.paused) {
             audio.play();
             playIcon.innerHTML = `<i class="fas fa-pause"></i>`;

@@ -1,7 +1,10 @@
+:root {
+    --background: url('https://images.unsplash.com/photo-1511884642898-4c92249e20b6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80');
+}
+
 * {
     margin: 0;
     padding: 0;
-    
 }
 
 html {
@@ -14,11 +17,20 @@ body {
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
+    display: relative;
     height: 100vh;
-    background-image: url('https://images.unsplash.com/photo-1511884642898-4c92249e20b6?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80');
-    filter: opacity(50%)
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: var(--background);
+    background-size: cover;
+    opacity: 0.6;
 }
 
 .random-background {
@@ -40,6 +52,11 @@ body {
 
 .random-background_button:active {
     transform: scale(0.96);
+}
+
+#attribute {
+    font-size: 1rem;
+    margin-left: 50px;
 }
 
 .play, .song, .file {
@@ -69,7 +86,7 @@ body {
 }
 
 .wave {
-    height: 100%;
+    height: 25%;
     display: flex;
     align-items: center;
     justify-content: center;
