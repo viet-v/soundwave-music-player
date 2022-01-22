@@ -14,7 +14,6 @@ const musicUpload = document.getElementById('music-file');
 const audio = document.getElementById('audio');
 const creator = document.getElementById('creator')
 
-
 const getPhoto = async () => {
     const response = await fetch(photoAPI)
     const photo = await response.json()
@@ -23,7 +22,7 @@ const getPhoto = async () => {
 }
 
 const updatePhoto = (photo) => {
-    const photoLink = photo.links.full;
+    const photoLink = photo.urls.regular;
     const creatorName = photo.user.name;
     const creatorLink = photo.user.links.html + '?utm_source=Soundwave_Music_Player&utm_medium=referral';
     creator.innerText = creatorName;    
@@ -32,7 +31,7 @@ const updatePhoto = (photo) => {
 }
 
 backgroundButton.addEventListener('click', () => {
-    // getPhoto()
+    getPhoto()
 })
 
 let audioSource;
