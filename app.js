@@ -15,6 +15,7 @@ const musicUpload = document.querySelector('#music-file');
 const audio = document.querySelector('#audio');
 const creator = document.querySelector('#creator')
 
+
 const getPhoto = async () => {
     const response = await fetch(photoAPI)
     const photo = await response.json()
@@ -38,29 +39,36 @@ let audioSource;
 let analyser;
 let bufferLength;
 let dataArray;
+let songStored;  // to continue playing the latest song if user doesn't choose a new one
 
 musicUpload.addEventListener('change', () => {
-    const file = musicUpload.files;     // file from computer
-    const url = URL.createObjectURL(file[0]);  // file source
-    audio.setAttribute('src', url);
-    songName.innerText = musicUpload.files[0].name;
 
-    //create audio context
-    const audioCtx = new AudioContext();
+    if (musicUpload.files.length === 1) {
+        const file = musicUpload.files;     // file from computer
+        const url = URL.createObjectURL(file[0]);  // file source
+        songStored = { ...file };
+        audio.setAttribute('src', url);
+        const regex = /.+(?=(.mp3))/gi     // matches song name, not matches .mp3
+        songName.innerText = musicUpload.files[0].name.match(regex)
 
-    //create audio source
-    audioSource = audioCtx.createMediaElementSource(audio);
+        //create audio context
+        const audioCtx = new AudioContext();
 
-    //create audio analyser
-    analyser = audioCtx.createAnalyser();
+        //create audio source
+        audioSource = audioCtx.createMediaElementSource(audio);
 
-    //connect audio source to analyser, then connect audio destination
-    audioSource.connect(analyser);
-    analyser.connect(audioCtx.destination);  // audio output device (computer speaker)
+        //create audio analyser
+        analyser = audioCtx.createAnalyser();
 
-    bufferLength = analyser.frequencyBinCount;  // 1024 (half of analyser)
-    dataArray = new Uint8Array(bufferLength);
+        //connect audio source to analyser, then connect audio destination
+        audioSource.connect(analyser);
+        analyser.connect(audioCtx.destination);  // audio output device (computer speaker)
+
+        bufferLength = analyser.frequencyBinCount;  // 1024 (half of analyser)
+        dataArray = new Uint8Array(bufferLength);
+    }
 })
+
 
 // create wave bars both up and down side
 for (let i = 0; i < 35; i++) {
@@ -75,7 +83,7 @@ for (let i = 0; i < 35; i++) {
     waveDown.append(barDown)
 }
     
-
+// changes bars height dynamically on frequencies
 const playMusic = () => {
     
     function animation () {
@@ -98,20 +106,27 @@ const playMusic = () => {
     animation()
 }
         
-    
+// click Play button
 playIcon.addEventListener('click', () => {
-    if (musicUpload.files[0]) {
+    if (musicUpload.files.length === 1 || songStored) {
         audio.play();
-        playIcon.classList.add('hide')
-        pauseIcon.classList.remove('hide')
-        playMusic()
+        playIcon.classList.add('hide');
+        pauseIcon.classList.remove('hide');
+        playMusic();
     } else {
         alert('Please choose a MP3 file from your computer')
     }
 })
 
+// click Pause button
 pauseIcon.addEventListener('click', () => {
-    audio.pause()
-    playIcon.classList.remove('hide')
-    pauseIcon.classList.add('hide')
+    audio.pause();
+    playIcon.classList.remove('hide');
+    pauseIcon.classList.add('hide');
+})
+
+// back to Play button when song ends
+audio.addEventListener('ended', () => {
+    playIcon.classList.remove('hide');
+    pauseIcon.classList.add('hide');
 })
