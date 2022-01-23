@@ -29,4 +29,4 @@ https://viet-v.github.io/soundwave-music-player/
 - Visual Studio Code and Photoshop CC 2022.
 
 
-#### Project idea, design and code by @viet-v
+#### Project idea, design and code by [@viet-v](https://github.com/viet-v)
