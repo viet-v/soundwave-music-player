@@ -56,6 +56,10 @@ body {
     transform: scale(0.96);
 }
 
+.random-background a {
+    color: black;
+}
+
 #attribute {
     font-size: 1rem;
     margin-left: 50px;
