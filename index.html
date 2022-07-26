@@ -20,7 +20,7 @@
                 on <a id="unsplash" href="https://unsplash.com/?utm_source=Soundwave_Music_Player&utm_medium=referral" target="_blank">Unsplash</a></p>
             </div>
         </div>
-        <div class="play">
+        <div class="play" id="play">
             <p id="play-icon"><i class="fas fa-play"></i></p>
             <p id="pause-icon" class="hide"><i class="fas fa-pause"></i></p>
         </div>
@@ -45,5 +45,17 @@
             </div>
         </div>
     </div>
+
+    <script>
+        // const playIcon = document.getElementById('play-icon');
+        // const pauseIcon= document.getElementById('pause-icon'); 
+        // press spacebar to play instead of click on play button
+        window.onkeydown = function(event){
+            if (event.keyCode === 32) {
+                event.preventDefault();
+                pauseIcon.classList.contains('hide') ? playIcon.click() : pauseIcon.click()
+            }
+        };
+    </script>
 </body>
 </html>
